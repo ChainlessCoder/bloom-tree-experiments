@@ -52,7 +52,7 @@ func main() {
 			proofSizes := make([]int, val)
 			for i := 0; i < len(elements); i ++ {
 				presenceMultiproof, _ := bt.GenerateCompactMultiProof(elements[i])
-				proofSizes[i] = ((len(presenceMultiproof.Chunks) + (len(presenceMultiproof.Proof) * 4)) * 64) + 8
+				proofSizes[i] = len(presenceMultiproof.Chunks)*8 + len(presenceMultiproof.Proof)*32 + 1
 			}
 			data := stats.LoadRawData(proofSizes)
 			median, _:= stats.Median(data)
