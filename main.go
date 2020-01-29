@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 	"io"
-    "log"
-    "os"
+    	"log"
+    	"os"
 	"github.com/montanaflynn/stats"
 	"github.com/labbloom/DBF"
 	bloomtree "github.com/labbloom/bloom-tree"
@@ -52,14 +52,14 @@ func main() {
 			proofSizes := make([]int, val)
 			for i := 0; i < len(elements); i ++ {
 				presenceMultiproof, _ := bt.GenerateCompactMultiProof(elements[i])
-				proofSizes[i] = len(presenceMultiproof.Chunks) + (len(presenceMultiproof.Proof) * 4)
+				proofSizes[i] = ((len(presenceMultiproof.Chunks) + (len(presenceMultiproof.Proof) * 4)) * 64) + 8
 			}
 			data := stats.LoadRawData(proofSizes)
 			median, _:= stats.Median(data)
 			roundedMedian, _ := stats.Round(median, 0)
 			mean, _ := stats.Mean(data)
 			roundedMean, _ := stats.Round(mean, 0)
-			bloomFilterSize := float64(len(dbf.BitArray().Bytes()))
+			bloomFilterSize := float64(len(dbf.BitArray().Bytes())) * 64
 			results[ind] = []float64{fprValue, float64(val), roundedMedian, roundedMean, bloomFilterSize}
 		}
 		finalResults[index] = results
