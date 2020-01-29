@@ -59,7 +59,7 @@ func main() {
 			roundedMedian, _ := stats.Round(median, 0)
 			mean, _ := stats.Mean(data)
 			roundedMean, _ := stats.Round(mean, 0)
-			bloomFilterSize := float64(len(dbf.BitArray().Bytes())) * 64
+			bloomFilterSize := float64(len(dbf.BitArray().Bytes())) * 8
 			results[ind] = []float64{fprValue, float64(val), roundedMedian, roundedMean, bloomFilterSize}
 		}
 		finalResults[index] = results
