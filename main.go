@@ -5,8 +5,9 @@ import (
 	"strconv"
 	"strings"
 	"io"
-    	"log"
-    	"os"
+    "log"
+	"os"
+	"math"
 	"github.com/montanaflynn/stats"
 	"github.com/labbloom/DBF"
 	bloomtree "github.com/labbloom/bloom-tree"
@@ -60,12 +61,13 @@ func main() {
 			mean, _ := stats.Mean(data)
 			roundedMean, _ := stats.Round(mean, 0)
 			bloomFilterSize := float64(len(dbf.BitArray().Bytes())) * 8
-			results[ind] = []float64{fprValue, float64(val), roundedMedian, roundedMean, bloomFilterSize}
+			absenceSize := (math.Log2(float64(math.Exp2(math.Ceil(math.Log2(float64(len(dbf.BitArray().Bytes()))))))) * 32) + 8 + 1
+			results[ind] = []float64{fprValue, float64(val), absenceSize, roundedMedian, roundedMean, bloomFilterSize}
 		}
 		finalResults[index] = results
 	}
 
-	csvResult := "fpr, n, median, mean, bloomFilterSize\n"
+	csvResult := "fpr,n,absence,presence_median,presence_mean,bloomFilterSize\n"
 	for _, mat := range finalResults {
 		for _, row := range mat {
 			st := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(row)), ", "), "[]")
