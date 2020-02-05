@@ -69,7 +69,7 @@ func main() {
 				roundedMean, _ := stats.Round(mean, 0)
 				bloomFilterSize := float64(len(dbf.BitArray().Bytes())) * 8
 				absenceSize := (math.Log2(float64(math.Exp2(math.Ceil(math.Log2(float64(len(dbf.BitArray().Bytes()))))))) * 32) + (float64(chunkVal)*8) + 1
-				results[ind] = []float64{float64(chunkVal), fprValue, float64(val), absenceSize, roundedMedian, roundedMean, bloomFilterSize}
+				results[ind] = []float64{float64(chunkVal)*64, fprValue, float64(val), absenceSize, roundedMedian, roundedMean, bloomFilterSize}
 			}
 			plotResults[fprIndex] = results
 		}
